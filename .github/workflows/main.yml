@@ -1,0 +1,13 @@
+name: Sec Pipeline
+
+on: 
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  Aikido:
+    uses: ./.github/workflows/aikido.yml
+    secrets: inherit
