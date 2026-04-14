@@ -1,4 +1,4 @@
-// vulnerable.js
+// fixed.js
 const express = require('express');
 const app = express();
 const mysql = require('mysql');
@@ -7,16 +7,16 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'password',
-  database: 'testDB'
+  database: 'testdb'
 });
 
 app.get('/user', (req, res) => {
   const username = req.query.username;
 
-  // ❌ Vulnerable to SQL Injection
-  const query = `SELECT * FROM users WHERE username = '${username}'`;
+  // ✅ Parameterized query (safe)
+  const query = 'SELECT * FROM users WHERE username = ?';
 
-  db.query(query, (err, result) => {
+  db.query(query, [username], (err, result) => {
     if (err) {
       res.status(500).send('Error');
     } else {
